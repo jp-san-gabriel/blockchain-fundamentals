@@ -36,11 +36,15 @@ class PubSub {
     }
 
     publish({ channel, message }) {
-        this.publisher.publish(channel, message, (err, reply) => {
-            if(err)
-                console.error('Error publishing message: ', err);
-            else
-                console.log('Message Published:', reply);
+        this.subscriber.unsubscribe(channel, () => {
+            this.publisher.publish(channel, message, (err, reply) => {
+                if(err)
+                    console.error('Error publishing message: ', err);
+                else
+                    console.log('Message Published:', reply);
+
+                    this.subscriber.subscribe(channel);
+            });
         });
     }
 
