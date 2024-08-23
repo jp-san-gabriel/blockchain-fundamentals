@@ -1,6 +1,6 @@
 const Block = require('./block');
-const { GENESIS_DATA } = require('./config');
-const cryptoHash = require('./crypto-hash');
+const { GENESIS_DATA } = require('../config');
+const cryptoHash = require('../util/crypto-hash');
 
 class Blockchain {
     constructor() {
