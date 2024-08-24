@@ -1,5 +1,5 @@
 const uuid = require('uuid/v1');
-const cryptoHash = require('../util/crypto-hash');
+const { cryptoHash } = require('../util');
 
 class Transaction {
     constructor ({ senderWallet, recipient, amount }) {
