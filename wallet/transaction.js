@@ -1,5 +1,5 @@
 const uuid = require('uuid/v1');
-const { cryptoHash, verifySignature } = require('../util');
+const { verifySignature } = require('../util');
 
 class Transaction {
     constructor ({ senderWallet, recipient, amount }) {
@@ -59,7 +59,6 @@ class Transaction {
         }
 
         this.outputMap[senderWallet.publicKey] -= amount;
-        console.log('sender wallet public key', this.outputMap[senderWallet.publicKey]);
         this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     }
 }
