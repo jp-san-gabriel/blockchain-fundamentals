@@ -153,6 +153,18 @@ describe('Blockchain', () => {
                 });
             });
         });
+
+        describe('and the validateTransactions is true', () => {
+            it('calls `validTransactionData()`', () => {
+                const validTransactionDataMock = jest.fn();
+                blockchain.validTransactionData = validTransactionDataMock;
+
+                newChain.addBlock({ data: 'blablabla' });
+                blockchain.replaceChain(newChain.chain, true);
+
+                expect(validTransactionDataMock).toHaveBeenCalled();
+            });
+        });
     });
 
     describe('validTransactionData()', () => {
@@ -239,7 +251,12 @@ describe('Blockchain', () => {
 
         describe('and the block contains multiple identical transactions', () => {
             it('returns false and logs an error', () => {
-                // expect(errorMock).toHaveBeenCalled();
+                newChain.addBlock({
+                    data: [transaction, transaction, transaction]
+                });
+                expect(blockchain.validTransactionData({ chain: newChain.chain }))
+                    .toBe(false);
+                expect(errorMock).toHaveBeenCalled();
             });
         });
     });
