@@ -15,17 +15,17 @@ class Blocks extends Component {
         return (
             <div>
                 <h3>Blocks</h3>
-                <ol>
-                    {blocks.map(block => (
-                        <li key={block.hash}>
+                {
+                    blocks.map(block => (
+                        <div key={block.hash} className="Block">
                             hash: {block.hash} <br/>
                             last hash: {block.lastHash} <br/>
                             nonce: {block.nonce} <br/>
                             timestamp: {block.timestamp} <br/>
                             difficulty: {block.difficulty}
-                        </li>
-                    ))}
-                </ol>
+                        </div>
+                    ))
+                }
             </div>
         )
     }
