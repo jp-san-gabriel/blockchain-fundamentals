@@ -84,18 +84,19 @@ class Blockchain {
     }
 
     replaceChain(chain, validateTransactions, onSuccess) {
+        const now = Date.now().toLocaleString();
 
         if (chain.length <= this.chain.length) {
-            console.error('The incoming chain must be longer');
+            console.error('The incoming chain must be longer', now);
             return;
         }
         if (!Blockchain.isValidChain(chain)) {
-            console.error('The incoming chain must be valid');
+            console.error('The incoming chain must be valid', now);
             return;
         }
 
         if (validateTransactions && !this.validTransactionData({ chain: chain })) {
-            console.error('The incoming chain has invalid data');
+            console.error('The incoming chain has invalid data', now);
             return;
         }
 

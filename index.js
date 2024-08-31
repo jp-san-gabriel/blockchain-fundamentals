@@ -132,20 +132,20 @@ const walletBarAction = () => generateWalletTransaction({
     wallet: walletBar, recipient: wallet.publicKey, amount: 15
 });
 
-for (let i = 0; i < 10; i ++) {
-    if (i % 3 === 0) {
-        walletAction();
-        walletFooAction();
-    } else if (i % 3 === 1) {
-        walletAction();
-        walletBarAction();
-    } else if (i % 3 === 2) {
-        walletFooAction();
-        walletBarAction();
-    }
+// for (let i = 0; i < 10; i ++) {
+//     if (i % 3 === 0) {
+//         walletAction();
+//         walletFooAction();
+//     } else if (i % 3 === 1) {
+//         walletAction();
+//         walletBarAction();
+//     } else if (i % 3 === 2) {
+//         walletFooAction();
+//         walletBarAction();
+//     }
 
-    transactionMiner.mineTransactions();
-}
+//     transactionMiner.mineTransactions();
+// }
 
 let PEER_PORT;
 
@@ -155,7 +155,7 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
 
 const PORT = PEER_PORT || DEFAULT_PORT;
 app.listen(PORT, () => {
-    console.log(`listening at localhost:${PORT}`); 
+    console.log(`listening at localhost:${PORT}`);
 
     if (PORT != DEFAULT_PORT) {
         syncWithRootState();

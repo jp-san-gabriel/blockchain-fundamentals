@@ -1,4 +1,11 @@
-const redis = require('redis');
+const PubNub = require('pubnub');
+// const redis = require('redis');
+
+const credentials = {
+    publishKey: "pub-c-1d2e10dd-d7c2-463d-bc54-8629a73add1e",
+    subscribeKey: "sub-c-1d8102eb-c161-4b00-b8d8-7e770f72fabf",
+    secretKey: "sec-c-YTA5YmVkNmUtN2NmNS00ODc3LWI5ZjItZmFkNmQ4ODgyNWZh"
+};
 
 const CHANNELS = {
     TEST: 'TEST',
@@ -11,15 +18,19 @@ class PubSub {
         this.blockchain = blockchain;
         this.transactionPool = transactionPool;
 
-        this.publisher = redis.createClient();
-        this.subscriber = redis.createClient();
+        this.pubnub = new PubNub(credentials);
+        this.pubnub.subscribe({ channels: Object.values(CHANNELS) });
 
-        this.subscribeToChannels();
+        this.pubnub.addListener(this.listener());
+    }
 
-        this.subscriber.on(
-            'message',
-            (channel, message) => this.handleMessage(channel, message)
-        );
+    listener() {
+        return {
+            message: messageObject => {
+                const { channel, message } = messageObject;
+                this.handleMessage(channel, message);
+            }
+        }
     }
 
     handleMessage(channel, message) {
@@ -43,21 +54,8 @@ class PubSub {
         }
     }
 
-    subscribeToChannels() {
-        Object.values(CHANNELS).forEach(channel => this.subscriber.subscribe(channel));
-    }
-
     publish({ channel, message }) {
-        this.subscriber.unsubscribe(channel, () => {
-            this.publisher.publish(channel, message, (err, reply) => {
-                if(err)
-                    console.error('Error publishing message: ', err);
-                else
-                    console.log('Message Published:', reply);
-
-                    this.subscriber.subscribe(channel);
-            });
-        });
+        this.pubnub.publish({ channel, message });
     }
 
     broadcastChain() {
