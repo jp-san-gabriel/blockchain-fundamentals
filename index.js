@@ -20,7 +20,9 @@ const transactionMiner = new TransactionMiner({
 });
 
 const DEFAULT_PORT = 3000;
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+const ROOT_NODE_ADDRESS = isDevelopment ?
+    `http://localhost:${DEFAULT_PORT}` :
+    'https://gentle-woodland-44002-26cf9279eff1.herokuapp.com';
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client/dist')));
